@@ -28,6 +28,7 @@ import {NotFound} from './components/NotFound';
 import styles from './styles/app.css';
 import {DEFAULT_LOCALE, parseMenu, getCartId} from './lib/utils';
 import {useAnalytics} from './hooks/useAnalytics';
+import ShopRunnerInit from './components/ShoprunnerInit';
 
 export const links: LinksFunction = () => {
   return [
@@ -70,6 +71,7 @@ export default function App() {
   const data = useLoaderData<typeof loader>();
   const locale = data.selectedLocale ?? DEFAULT_LOCALE;
   const hasUserConsent = true;
+  ShopRunnerInit(data);
 
   useAnalytics(hasUserConsent, locale);
 
@@ -281,6 +283,7 @@ const CART_QUERY = `#graphql
           merchandise {
             ... on ProductVariant {
               id
+              sku
               availableForSale
               compareAtPrice {
                 ...MoneyFragment
@@ -297,6 +300,19 @@ const CART_QUERY = `#graphql
                 handle
                 title
                 id
+                tags
+                variants (first: 250) {
+                edges {
+                node {
+                  id
+                  sku
+                  quantityAvailable
+                  price {
+                    amount
+                  }
+                }
+              }
+            }
               }
               selectedOptions {
                 name

@@ -273,6 +273,7 @@ export function ProductForm() {
                 storeDomain={storeDomain}
               />
             )}
+            {product.tags.includes('shoprunner') && <sr-benefits></sr-benefits>}
           </div>
         )}
       </div>
@@ -534,6 +535,7 @@ const PRODUCT_QUERY = `#graphql
       handle
       descriptionHtml
       description
+      tags
       options {
         name
         values

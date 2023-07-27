@@ -162,6 +162,25 @@ function CartLines({
       aria-labelledby="cart-contents"
       className={className}
     >
+      {/**************************************** SHOPRUNNER CART ICON  */}
+      <div className="w-full font-semibold mb-5 text-center  text-primary-500">
+        <div className="py-1">
+          {currentLines.some((item) =>
+            item.merchandise.product.tags.includes('shoprunner'),
+          ) ? (
+            currentLines.every((item) =>
+              item.merchandise.product.tags.includes('shoprunner'),
+            ) ? (
+              <sr-header />
+            ) : (
+              <strong>Free ground Shipping with ShopRunner</strong>
+            )
+          ) : (
+            <strong>Free ground Shipping with ShopRunner</strong>
+          )}
+        </div>
+        <div className="border-t-[1px] py-0.5"></div>
+      </div>
       <ul className="grid gap-6 md:gap-10">
         {currentLines.map((line) => (
           <CartLineItem key={line.id} line={line as CartLine} />
@@ -262,7 +281,10 @@ function CartLineItem({line}: {line: CartLine}) {
               </Text>
             ))}
           </div>
-
+          {/**************************************** SHOPRUNNER ELIGIBILITY ICON  */}
+          <div className="grid pb-1">
+            {merchandise.product.tags.includes('shoprunner') && <sr-eligible />}
+          </div>
           <div className="flex items-center gap-2">
             <div className="flex justify-start text-copy">
               <CartLineQuantityAdjust line={line} />
